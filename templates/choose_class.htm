@@ -1,0 +1,12 @@
+{% extends 'base.htm' %}
+
+{% block title %}testowy tytul{% endblock %}
+
+{% block body %}
+    <h1>Wybór klasy postaci</h1>
+    <ul>
+        {% for class in classes %}
+            <li><a href="/">{{ class }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}
