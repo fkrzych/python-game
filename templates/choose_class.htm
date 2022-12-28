@@ -6,8 +6,12 @@
     <h1>Wybór klasy postaci</h1>
     <p>{{ name }}</p>
     <ul>
+        <form method="post" action="/stats">
         {% for class in classes %}
-            <li><a href="/">{{ class }}</a></li>
+            <label for="{{ class }}">{{ class }}</label>
+            <input type="radio" name="character_class" id="{{ class }}" value="{{ class }}">
         {% endfor %}
+        <input type="submit" value="Zatwierdź">
+        </form>
     </ul>
 {% endblock %}
