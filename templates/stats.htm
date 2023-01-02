@@ -1,9 +1,50 @@
 {% extends 'base.htm' %}
 
 {% block body %}
-    <p>{{ name }}</p>
-    <p>{{ character_class }}</p>
-    {% for stat in stats %}
-        <p>{{ stat }}</p>
-    {% endfor %}
+    <p>{{ player.name }}</p>
+    <p>{{ player.character_class }}</p>
+    <table border="1">
+    <tr>Statystyki postaci</tr>
+        <tr>
+            <td>{{ stats_names[0] }}</td>
+            <td>{{ player.strength }}</td>
+        </tr>
+        <tr>
+            <td>{{ stats_names[1] }}</td>
+            <td>{{ player.dexterity }}</td>
+        </tr>
+        <tr>
+            <td>{{ stats_names[2] }}</td>
+            <td>{{ player.charisma }}</td>
+        </tr>
+    </table>
+
+    <table border="1">
+    <tr>Atak</tr>
+        <tr>
+            <td>{{ stats_names[3] }}</td>
+            <td>{{ player.damage1 }}-{{ player.damage2 }}</td>
+        </tr>
+        <tr>
+            <td>{{ stats_names[4] }}</td>
+            <td>{{ player.attack_speed }}</td>
+        </tr>
+        <tr>
+            <td>{{ stats_names[5] }}</td>
+            <td>{{ player.critical_attack }}</td>
+        </tr>
+    </table>
+
+    <table border="1">
+    <tr>Obrona</tr>
+        <tr>
+            <td>{{ stats_names[6] }}</td>
+            <td>{{ player.block }}</td>
+        </tr>
+        <tr>
+            <td>{{ stats_names[7] }}</td>
+            <td>{{ player.dodge }}</td>
+        </tr>
+    </table>
+    <a href="/game">Zatwierdź</a>
 {% endblock %}

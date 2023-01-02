@@ -1,0 +1,45 @@
+{% extends 'base.htm' %}
+
+{% block body %}
+
+    <p>PRZECIWINIK: {{ enemy.health }} HP</p>
+    <p>{{ player.name }}: {{ player.health }} HP</p>
+    <p>Tura {{ battle.turn }}</p>
+
+    <form method="post" >
+        <input type="hidden" id="action" name="action" value="attack">
+        <input type="submit" value="atakuj">
+    </form>
+
+    <table border="1">
+    <tr>Plecak</tr>
+        <tr>
+            <td>{{ backpack.potion1 }}</td>
+            <td>
+                <form method="post" >
+                    <input type="hidden" id="potion" name="potion" value="potion1">
+                    <input type="submit" value="+{{ potions[0].value }} HP">
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td>{{ backpack.potion2 }}</td>
+            <td>
+                <form method="post" >
+                    <input type="hidden" id="potion" name="potion" value="potion2">
+                    <input type="submit" value="+{{ potions[1].value }} HP">
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td>{{ backpack.potion3 }}</td>
+            <td>
+                <form method="post" >
+                    <input type="hidden" id="potion" name="potion" value="potion3">
+                    <input type="submit" value="+{{ potions[2].value }} HP">
+                </form>
+            </td>
+        </tr>
+    </table>
+
+{% endblock %}
