@@ -3,11 +3,12 @@
 {% block title %}testowy tytul{% endblock %}
 
 {% block body %}
-    <h1>Wybór klasy postaci</h1>
+    <h1>Wybór broni</h1>
     <p>{{ name }}</p>
     <ul>
         <form method="post" action="/stats">
         {% for class in classes %}
+            <img src="{{ url_for('static', filename='/img/onehand.png') }}">
             <label for="{{ class }}">{{ class }}</label>
             <input type="radio" name="character_class" id="{{ class }}" value="{{ class }}">
         {% endfor %}

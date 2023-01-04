@@ -1,45 +1,118 @@
 {% extends 'base.htm' %}
 
 {% block body %}
+    <p>PRZECIWINIK: {{ enemy1.health }} HP, ENERGIA:{{ enemy1.energy }} </p>
+    <p>{{ player.name }}: {{ player.health }} HP, ENERGIA: {{ player.energy }}</p>
 
-    <p>PRZECIWINIK: {{ enemy.health }} HP</p>
-    <p>{{ player.name }}: {{ player.health }} HP</p>
-    <p>Tura {{ battle.turn }}</p>
+    {% if battle.turn > 0 %}
+        <p>Tura {{ battle.turn }}</p>
+        {% if action == 'attack' and is_critical_taken and is_critical and is_attack_taken_blocked %}
+            <p>CIOS KRYTYCZNY {{ attack }} obrażeń</p>
+            {% if enemy_rests %}
+                <p>Przeciwnik odzyskał 10 energii</p>
+            {% else %}
+                <p>ZABLOKOWAŁEŚ CIOS KRYTYCZNY {{ attack_taken }} obrażeń</p>
+            {% endif %}
+        {% elif action == 'attack' and is_critical and is_attack_taken_blocked %}
+            <p>CIOS KRYTYCZNY {{ attack }} obrażeń</p>
+            {% if enemy_rests %}
+                <p>Przeciwnik odzyskał 10 energii</p>
+            {% else %}
+                <p>ZABLOKOWAŁEŚ {{ attack_taken }} obrażeń</p>
+            {% endif %}
+        {% elif action == 'attack' and is_critical_taken and is_attack_taken_blocked %}
+            <p>Zadałeś {{ attack }} obrażeń</p>
+            {% if enemy_rests %}
+                <p>Przeciwnik odzyskał 10 energii</p>
+            {% else %}
+                <p>ZABLOKOWAŁEŚ CIOS KRYTYCZNY {{ attack_taken }} obrażeń</p>
+            {% endif %}
+        {% elif action == 'attack' and is_attack_taken_blocked %}
+            <p>Zadałeś {{ attack }} obrażeń</p>
+            {% if enemy_rests %}
+                <p>Przeciwnik odzyskał 10 energii</p>
+            {% else %}
+                <p>ZABLOKOWAŁEŚ {{ attack_taken }} obrażeń</p>
+            {% endif %}
+        {% elif action == 'attack' and is_critical_taken and is_critical and is_attack_taken_dodged %}
+            <p>CIOS KRYTYCZNY {{ attack }} obrażeń</p>
+            {% if enemy_rests %}
+                <p>Przeciwnik odzyskał 10 energii</p>
+            {% else %}
+                <p>UNIKNĄŁEŚ CIOSU KRYTYCZNEGO {{ attack_taken }} obrażeń</p>
+            {% endif %}
+        {% elif action == 'attack' and is_critical and is_attack_taken_dodged %}
+            <p>CIOS KRYTYCZNY {{ attack }} obrażeń</p>
+            {% if enemy_rests %}
+                <p>Przeciwnik odzyskał 10 energii</p>
+            {% else %}
+                <p>UNIKNĄŁEŚ {{ attack_taken }} obrażeń</p>
+            {% endif %}
+        {% elif action == 'attack' and is_critical_taken and is_attack_taken_dodged %}
+            <p>Zadałeś {{ attack }} obrażeń</p>
+            {% if enemy_rests %}
+                <p>Przeciwnik odzyskał 10 energii</p>
+            {% else %}
+                <p>UNIKNĄŁEŚ CIOSU KRYTYCZNEGO {{ attack_taken }} obrażeń</p>
+            {% endif %}
+        {% elif action == 'attack' and is_attack_taken_dodged %}
+            <p>Zadałeś {{ attack }} obrażeń</p>
+            {% if enemy_rests %}
+                <p>Przeciwnik odzyskał 10 energii</p>
+            {% else %}
+                <p>UNIKNĄŁEŚ {{ attack_taken }} obrażeń</p>
+            {% endif %}
+        {% elif action == 'attack' and is_critical_taken and is_critical %}
+            <p>CIOS KRYTYCZNY {{ attack }} obrażeń</p>
+            {% if enemy_rests %}
+                <p>Przeciwnik odzyskał 10 energii</p>
+            {% else %}
+                <p>CIOS KRYTYCZNY {{ attack_taken }} obrażeń</p>
+            {% endif %}
+        {% elif action == 'attack' and is_critical %}
+            <p>CIOS KRYTYCZNY {{ attack }} obrażeń!</p>
+            {% if enemy_rests %}
+                <p>Przeciwnik odzyskał 10 energii</p>
+            {% else %}
+                <p>Otrzymałeś {{ attack_taken }} obrażeń</p>
+            {% endif %}
+        {% elif action == 'attack' and is_critical_taken %}
+            <p>Zadałeś {{ attack }} obrażeń</p>
+            {% if enemy_rests %}
+                <p>Przeciwnik odzyskał 10 energii</p>
+            {% else %}
+                <p>CIOS KRYTYCZNY {{ attack_taken }} obrażeń</p>
+            {% endif %}
+        {% elif action == 'attack' %}
+            <p>Zadałeś {{ attack }} obrażeń</p>
+            {% if enemy_rests %}
+                <p>Przeciwnik odzyskał 10 energii</p>
+            {% else %}
+                <p>Otrzymałeś {{ attack_taken }} obrażeń</p>
+            {% endif %}
+        {% elif action == 'rest' %}
+            <p>Odzyskałeś 20 energii</p>
+            {% if enemy_rests %}
+                <p>Przeciwnik odzyskał 10 energii</p>
+            {% else %}
+                <p>Otrzymałeś {{ attack_taken }} obrażeń</p>
+            {% endif %}
+        {% endif %}
+    {% endif %}
 
+    {% if enemy1.health > 0 and  player.health > 0%}
     <form method="post" >
         <input type="hidden" id="action" name="action" value="attack">
-        <input type="submit" value="atakuj">
+        <input type="submit" value="atakuj -10ENG">
     </form>
 
-    <table border="1">
-    <tr>Plecak</tr>
-        <tr>
-            <td>{{ backpack.potion1 }}</td>
-            <td>
-                <form method="post" >
-                    <input type="hidden" id="potion" name="potion" value="potion1">
-                    <input type="submit" value="+{{ potions[0].value }} HP">
-                </form>
-            </td>
-        </tr>
-        <tr>
-            <td>{{ backpack.potion2 }}</td>
-            <td>
-                <form method="post" >
-                    <input type="hidden" id="potion" name="potion" value="potion2">
-                    <input type="submit" value="+{{ potions[1].value }} HP">
-                </form>
-            </td>
-        </tr>
-        <tr>
-            <td>{{ backpack.potion3 }}</td>
-            <td>
-                <form method="post" >
-                    <input type="hidden" id="potion" name="potion" value="potion3">
-                    <input type="submit" value="+{{ potions[2].value }} HP">
-                </form>
-            </td>
-        </tr>
-    </table>
-
+    <form method="post" >
+        <input type="hidden" id="action" name="action" value="rest">
+        <input type="submit" value="odpocznij +20ENG">
+    </form>
+    {% else %}
+    <form method="post" >
+        <input type="submit" value="Koniec walki">
+    </form>
+    {% endif %}
 {% endblock %}

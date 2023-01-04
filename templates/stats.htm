@@ -31,7 +31,7 @@
         </tr>
         <tr>
             <td>{{ stats_names[5] }}</td>
-            <td>{{ player.critical_attack }}</td>
+            <td>{{ player.critical_attack * 100 }}%</td>
         </tr>
     </table>
 
@@ -39,11 +39,11 @@
     <tr>Obrona</tr>
         <tr>
             <td>{{ stats_names[6] }}</td>
-            <td>{{ player.block }}</td>
+            <td>{{ player.block * 100 }}%</td>
         </tr>
         <tr>
             <td>{{ stats_names[7] }}</td>
-            <td>{{ player.dodge }}</td>
+            <td>{{ player.dodge * 100 }}%</td>
         </tr>
     </table>
     <a href="/game">Zatwierdź</a>

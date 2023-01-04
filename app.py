@@ -1,12 +1,10 @@
-import random
-
 from flask import Flask
 from flask import render_template
 from flask import request
-from characters import Skater, Longboarder, Rollerblader
+from characters import OneHand, TwoHand, Daggers
 from items import Potion1, Potion2, Potion3, Backpack
-from actions import use_potion
-from enemies import Enemy
+from actions import use_potion, calculate_attack, calculate_block, regenerate_energy, enemy_attacks
+from enemies import Enemy1
 
 app = Flask(__name__)
 
@@ -21,7 +19,9 @@ class Player:
         self.name = name
         self.character_class = character_class
         self.max_health = 1000
-        self.health = 177
+        self.health = self.max_health
+        self.max_energy = 100
+        self.energy = self.max_energy
         self.strength = 0
         self.dexterity = 0
         self.charisma = 0
@@ -30,9 +30,11 @@ class Player:
         self.attack_speed = 0
         self.critical_attack = 0
 
+
 class Battle:
     def __init__(self):
-        self.turn = 1
+        self.turn = 0
+
 
 @app.route('/', methods=['GET', 'POST'])
 def start_game():
@@ -48,7 +50,7 @@ def choose_class():
     player.backpack = Backpack()
 
     player.name = request.form.get('character_name')
-    classes = ['Deskorolkarz', 'Longboardzista', 'Rolkarz']
+    classes = ['Broń jednoręczna i tarcza', 'Broń dwuręczna', 'Sztylety']
     return render_template('choose_class.htm', classes=classes, name=player.name)
 
 
@@ -57,12 +59,12 @@ def show_stats():
     global player
     if request.method == 'POST':
         player.character_class = request.form.get('character_class')
-    if player.character_class == 'Deskorolkarz':
-        character = Skater()
-    if player.character_class == 'Longboardzista':
-        character = Longboarder()
-    if player.character_class == 'Rolkarz':
-        character = Rollerblader()
+    if player.character_class == 'Broń jednoręczna i tarcza':
+        character = OneHand()
+    if player.character_class == 'Broń dwuręczna':
+        character = TwoHand()
+    if player.character_class == 'Sztylety':
+        character = Daggers()
 
     player.strength = character.strength
     player.dexterity = character.dexterity
@@ -86,8 +88,8 @@ def game():
     global battle
     battle = Battle()
 
-    global enemy
-    enemy = Enemy()
+    global enemy1
+    enemy1 = Enemy1()
     if request.method == 'POST':
         if request.form.get('potion') == 'potion1':
             if player.backpack.potion1 > 0:
@@ -98,7 +100,7 @@ def game():
             if player.backpack.potion2 > 0:
                 potion = Potion2()
                 use_potion(player, potion)
-                player.backpack.potion3 -= 1
+                player.backpack.potion2 -= 1
         if request.form.get('potion') == 'potion3':
             if player.backpack.potion3 > 0:
                 potion = Potion3()
@@ -115,39 +117,42 @@ def battle():
 
     if player.health <= 0:
         return render_template('exit_battle_dead.htm')
-    if enemy.health <= 0:
+    if enemy1.health <= 0:
+        player.energy = player.max_energy
         return render_template('exit_battle_win.htm')
 
-    if request.method == 'POST':
-        if player.health > 0 and enemy.health > 0:
-            action = request.form.get('action')
-            if action == 'attack':
-                enemy.health -= random.randint(player.damage1, player.damage2)
-                player.health -= enemy.attack
-                battle.turn += 1
-            if request.form.get('potion') == 'potion1':
-                if player.backpack.potion1 > 0:
-                    potion = Potion1()
-                    use_potion(player, potion)
-                    player.backpack.potion1 -= 1
-                    player.health -= enemy.attack
-                    battle.turn += 1
-            if request.form.get('potion') == 'potion2':
-                if player.backpack.potion2 > 0:
-                    potion = Potion2()
-                    use_potion(player, potion)
-                    player.backpack.potion3 -= 1
-                    player.health -= enemy.attack
-                    battle.turn += 1
-            if request.form.get('potion') == 'potion3':
-                if player.backpack.potion3 > 0:
-                    potion = Potion3()
-                    use_potion(player, potion)
-                    player.backpack.potion3 -= 1
-                    player.health -= enemy.attack
-                    battle.turn += 1
+    action = ''
+    attack = 0
+    attack_taken = 0
+    is_critical = False
+    is_critical_taken = False
+    is_attack_taken_blocked = False
+    is_attack_taken_dodged = False
+    enemy_rests = False
 
-    return render_template('battle.htm', backpack=player.backpack, enemy=enemy, player=player, battle=battle, potions=potions)
+    if request.method == 'POST':
+        if player.health > 0 and enemy1.health > 0:
+            action = request.form.get('action')
+            if action == 'attack' and player.energy > 0:
+                attack, is_critical = calculate_attack(player.damage1, player.damage2, player.critical_attack, player.attack_speed, is_critical)
+                enemy1.health -= attack
+                player.energy -= 10
+
+                attack_taken, is_critical_taken, is_attack_taken_blocked, is_attack_taken_dodged, enemy_rests = enemy_attacks(enemy1, player, is_critical_taken, is_attack_taken_blocked, is_attack_taken_dodged, enemy_rests, attack_taken)
+
+                battle.turn += 1
+            elif action == 'attack' and player.energy <= 0:
+                return 'Nie masz siły zaatakować!'
+            if action == 'rest':
+
+                if player.energy < 100:
+                    regenerate_energy(player, 20)
+
+                attack_taken, is_critical_taken, is_attack_taken_blocked, is_attack_taken_dodged, enemy_rests = enemy_attacks(enemy1, player, is_critical_taken, is_attack_taken_blocked, is_attack_taken_dodged, enemy_rests, attack_taken)
+
+                battle.turn += 1
+
+    return render_template('battle.htm', backpack=player.backpack, enemy1=enemy1, player=player, battle=battle, potions=potions, attack=attack, action=action, is_critical=is_critical, attack_taken=attack_taken, is_critical_taken=is_critical_taken, is_attack_taken_blocked=is_attack_taken_blocked, is_attack_taken_dodged=is_attack_taken_dodged, enemy_rests=enemy_rests)
 
 
 if __name__ == '__main__':
