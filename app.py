@@ -51,7 +51,8 @@ def choose_class():
 
     player.name = request.form.get('character_name')
     classes = ['Broń jednoręczna i tarcza', 'Broń dwuręczna', 'Sztylety']
-    return render_template('choose_class.htm', classes=classes, name=player.name)
+    weapons = ['OneHand', 'TwoHand', 'Daggers']
+    return render_template('choose_class.htm', classes=classes, name=player.name, weapons=weapons)
 
 
 @app.route('/stats', methods=['GET', 'POST'])

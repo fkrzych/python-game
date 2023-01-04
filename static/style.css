@@ -1,0 +1,56 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'VT323', monospace;
+}
+
+h1 {
+    text-align: center;
+    font-size: 3rem;
+}
+
+p {
+    text-align: center;
+    font-size: 2.4rem;
+}
+
+/*.weapons-container {*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    font-size: 1.2rem;*/
+/*}*/
+
+.main-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.weapons-container {
+    padding-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 1fr;
+    font-size: 1.2rem;
+}
+
+.weapon-field {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.weapon-choose-btn {
+    justify-self: center;
+    align-self: center;
+    grid-column: 2;
+}

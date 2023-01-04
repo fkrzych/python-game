@@ -1,18 +1,18 @@
 {% extends 'base.htm' %}
 
-{% block title %}testowy tytul{% endblock %}
-
 {% block body %}
     <h1>Wybór broni</h1>
     <p>{{ name }}</p>
-    <ul>
-        <form method="post" action="/stats">
-        {% for class in classes %}
-            <img src="{{ url_for('static', filename='/img/onehand.png') }}">
-            <label for="{{ class }}">{{ class }}</label>
-            <input type="radio" name="character_class" id="{{ class }}" value="{{ class }}">
-        {% endfor %}
-        <input type="submit" value="Pokaż statystyki">
+    <div class="main-container">
+        <form method="post" action="/stats" class="weapons-container">
+            {% for class in classes %}
+                <div class="weapon-field">
+                        <img src="{{ url_for('static', filename='img/'+ class + ".png") }}" width="64" height="64">
+                        <label for="{{ class }}">{{ class }}</label>
+                        <input type="radio" name="character_class" id="{{ class }}" value="{{ class }}">
+                </div>
+            {% endfor %}
+            <input type="submit" value="Pokaż statystyki" class="weapon-choose-btn">
         </form>
-    </ul>
+    </div>
 {% endblock %}
