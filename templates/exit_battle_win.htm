@@ -2,5 +2,9 @@
 
 {% block body %}
     <p>Wygrałeś</p>
-    <a href="/game">Wróć do gry</a>
+    <div class="container-center margin-top-2rem">
+        <form method="post" action="/game">
+                <input type="submit" value="Wróć do gry" class="add-stat-button">
+        </form>
+    </div>
 {% endblock %}

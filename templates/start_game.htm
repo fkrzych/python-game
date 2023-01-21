@@ -1,10 +1,14 @@
 {% extends 'base.htm' %}
 
 {% block body %}
+    <div class="box-shadow-color margin-2rem">
     <h1>Rozpocznij grę!</h1>
-    <form method="post">
-        <label for="character_name">Nazwa postaci:</label>
-        <input type="text" id="character_name" name="character_name">
-        <input type="submit" value="Zatwierdź">
-    </form>
+        <div class="container-center margin-top-1rem">
+            <form method="post" action="/choose_class">
+                <label for="character_name">Nazwa postaci:</label>
+                <input type="text" id="character_name" name="character_name">
+                <input type="submit" value="Zatwierdź" class="add-stat-button">
+            </form>
+        </div>
+    </div>
 {% endblock %}

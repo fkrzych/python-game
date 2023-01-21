@@ -3,48 +3,43 @@
 {% block body %}
     <p>{{ player.name }}</p>
     <p>{{ player.character_class }}</p>
-    <table border="1">
-    <tr>Statystyki postaci</tr>
-        <tr>
-            <td>{{ stats_names[0] }}</td>
-            <td>{{ player.strength }}</td>
-        </tr>
-        <tr>
-            <td>{{ stats_names[1] }}</td>
-            <td>{{ player.dexterity }}</td>
-        </tr>
-        <tr>
-            <td>{{ stats_names[2] }}</td>
-            <td>{{ player.charisma }}</td>
-        </tr>
-    </table>
-
-    <table border="1">
-    <tr>Atak</tr>
-        <tr>
-            <td>{{ stats_names[3] }}</td>
-            <td>{{ player.damage1 }}-{{ player.damage2 }}</td>
-        </tr>
-        <tr>
-            <td>{{ stats_names[4] }}</td>
-            <td>{{ player.attack_speed }}</td>
-        </tr>
-        <tr>
-            <td>{{ stats_names[5] }}</td>
-            <td>{{ player.critical_attack * 100 }}%</td>
-        </tr>
-    </table>
-
-    <table border="1">
-    <tr>Obrona</tr>
-        <tr>
-            <td>{{ stats_names[6] }}</td>
-            <td>{{ player.block * 100 }}%</td>
-        </tr>
-        <tr>
-            <td>{{ stats_names[7] }}</td>
-            <td>{{ player.dodge * 100 }}%</td>
-        </tr>
-    </table>
-    <a href="/game">Zatwierdź</a>
+    <p>Pozostałe punkty do rozdania: {{ player.start_points }}</p>
+    <div class="container-center margin-top-2rem">
+        <div class="stats-container stats-container-column">
+            <div class="stats-column">
+                <div>Statystyki postaci</div>
+                <div class="font-size-2rem">
+                    <div>{{ stats_names[0] }} {{ player.strength }}</div>
+                    <div>{{ stats_names[1] }} {{ player.dexterity }}</div>
+                    <div>{{ stats_names[2] }} {{ player.charisma }}</div>
+                </div>
+            </div>
+            <div class="stats-column">
+                <div>Atak</div>
+                <div class="font-size-2rem">
+                    <div>{{ stats_names[3] }} {{ player.damage1 }}-{{ player.damage2 }}</div>
+                    <div>{{ stats_names[4] }} {{ player.attack_speed }}</div>
+                    <div>{{ stats_names[5] }} {{ (player.critical_attack * 100)|round(2) }}%</div>
+                </div>
+            </div>
+            {% if player.character_class != 'Broń dwuręczna' %}
+            <div class="stats-column">
+                <div>Obrona</div>
+                <div class="font-size-2rem">
+                    {% if player.character_class == 'Broń jednoręczna i tarcza' %}
+                        <div>{{ stats_names[6] }} {{ (player.block * 100)|round(2) }}%</div>
+                    {% endif %}
+                    {% if player.character_class == 'Sztylety' %}
+                        <div>{{ stats_names[7] }} {{ (player.dodge * 100)|round(2) }}%</div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="container-center margin-top-2rem">
+        <form action="/add_stats" method="post">
+            <input type="submit" value="Rozdaj startowe punkty statystyk" class="add-stat-button">
+        </form>
+    </div>
 {% endblock %}

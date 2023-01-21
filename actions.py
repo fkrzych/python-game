@@ -24,6 +24,15 @@ def calculate_attack(damage1, damage2, critical_attack, attack_speed, is_critica
         attack = int(random.randint(damage1, damage2) * attack_speed)
     return attack, is_critical
 
+def calculate_strong_attack(damage1, damage2, critical_attack, attack_speed, is_critical):
+    critical_attack_chance = random.random()
+    if critical_attack_chance < critical_attack:
+        attack = int(random.randint(damage1, damage2) * attack_speed) * 4
+        is_critical = True
+    else:
+        attack = int(random.randint(damage1, damage2) * attack_speed) * 2
+    return attack, is_critical
+
 
 def calculate_block(block, is_attack_blocked):
     block_chance = random.random()

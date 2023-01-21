@@ -1,41 +1,92 @@
 {% extends 'base.htm' %}
 
 {% block body %}
-    <p>{{ player.name }}</p>
-    <p>{{ player.character_class }}</p>
-    <p>{{ player.health }} HP</p>
 
-    <table border="1">
-    <tr>Plecak</tr>
-        <tr>
-            <td>{{ backpack.potion1 }}</td>
-            <td>
-                <form method="post" >
-                    <input type="hidden" id="potion" name="potion" value="potion1">
-                    <input type="submit" value="+{{ potions[0].value }} HP">
-                </form>
-            </td>
-        </tr>
-        <tr>
-            <td>{{ backpack.potion2 }}</td>
-            <td>
-                <form method="post" >
-                    <input type="hidden" id="potion" name="potion" value="potion2">
-                    <input type="submit" value="+{{ potions[1].value }} HP">
-                </form>
-            </td>
-        </tr>
-        <tr>
-            <td>{{ backpack.potion3 }}</td>
-            <td>
-                <form method="post" >
-                    <input type="hidden" id="potion" name="potion" value="potion3">
-                    <input type="submit" value="+{{ potions[2].value }} HP">
-                </form>
-            </td>
-        </tr>
-    </table>
+    <div class="container box-shadow-color">
+        <div class="stats-container">
+            <div class="stats-column">
+                <div>Statystyki postaci</div>
+                <div>{{ stats_names[0] }} {{ player.strength }}</div>
+                <div>{{ stats_names[1] }} {{ player.dexterity }}</div>
+                <div>{{ stats_names[2] }} {{ player.charisma }}</div>
+            </div>
+            <div class="stats-column">
+                <div>Atak</div>
+                <div>{{ stats_names[3] }} {{ player.damage1 }}-{{ player.damage2 }}</div>
+                <div>{{ stats_names[4] }} {{ player.attack_speed }}</div>
+                <div>{{ stats_names[5] }} {{ (player.critical_attack * 100)|round(2) }}%</div>
+            </div>
+            {% if player.character_class != 'Broń dwuręczna' %}
+            <div class="stats-column">
+                <div>Obrona</div>
+                    {% if player.character_class == 'Broń jednoręczna i tarcza' %}
+                        <div>{{ stats_names[6] }} {{ (player.block * 100)|round(2) }}%</div>
+                    {% endif %}
+                    {% if player.character_class == 'Sztylety' %}
+                        <div>{{ stats_names[7] }} {{ (player.dodge * 100)|round(2) }}%</div>
+                    {% endif %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="name-container">
+            <div class="name-bar">{{ player.name }}</div>
+            <div class="name-bar"><img src="{{ url_for('static', filename='img/'+ player.character_class + ".png") }}" width="64" height="64"></div>
+            <div class="name-bar">{{ player.health }} <img src="{{ url_for('static', filename="img/heart3.png") }}" width="32" height="32"></div>
+        </div>
+        <div class="main-container backpack-container">
 
-    <a href="/game/battle">Walcz</a>
+            <div>
+            <div>Plecak</div>
+
+                <div class="backpack-element">
+                    <div>{{ backpack.potion1 }}</div>
+                    <form method="post" >
+                        <input type="hidden" id="potion" name="potion" value="potion1">
+                        <input type="submit" value="+{{ potions[0].value }} HP">
+                    </form>
+                </div>
+
+                <div class="backpack-element">
+                    <div>{{ backpack.potion2 }}</div>
+                    <form method="post" >
+                        <input type="hidden" id="potion" name="potion" value="potion2">
+                        <input type="submit" value="+{{ potions[1].value }} HP">
+                    </form>
+                </div>
+
+                <div class="backpack-element">
+                    <div>{{ backpack.potion3 }}</div>
+                    <form method="post" >
+                        <input type="hidden" id="potion" name="potion" value="potion3">
+                        <input type="submit" value="+{{ potions[2].value }} HP">
+                    </form>
+                </div>
+            </div>
+
+    </div>
+    </div>
+
+
+
+    <div class="main-container">
+        <div class="enemy-tree">
+            <div class="enemy-row">
+                <a href="/game/battle">{{ enemies[6] }}</a>
+            </div>
+            <div class="enemy-row">
+                <a href="/game/battle">{{ enemies[3] }}</a>
+                <a href="/game/battle">{{ enemies[4] }}</a>
+                <a href="/game/battle">{{ enemies[5] }}</a>
+            </div>
+            <div class="enemy-row">
+                <a href="/game/battle">{{ enemies[1] }}</a>
+                <a href="/game/battle">{{ enemies[2] }}</a>
+            </div>
+            <div class="enemy-row">
+                <a href="/game/battle">{{ enemies[0] }}</a>
+            </div>
+        </div>
+    </div>
+
 
 {% endblock %}

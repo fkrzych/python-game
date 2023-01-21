@@ -1,18 +1,20 @@
 {% extends 'base.htm' %}
 
 {% block body %}
-    <h1>Wybór broni</h1>
-    <p>{{ name }}</p>
-    <div class="main-container">
+    <div class="margin-top-2rem">
+        <h1>Wybór broni</h1>
+        <p>{{ name }}</p>
+    </div>
+    <div class="main-container box-shadow-color margin-2rem padding-top-3rem">
         <form method="post" action="/stats" class="weapons-container">
             {% for class in classes %}
                 <div class="weapon-field">
                         <img src="{{ url_for('static', filename='img/'+ class + ".png") }}" width="64" height="64">
                         <label for="{{ class }}">{{ class }}</label>
-                        <input type="radio" name="character_class" id="{{ class }}" value="{{ class }}">
+                        <input type="radio" name="character_class" id="{{ class }}" value="{{ class }}" class="margin-top-1rem">
                 </div>
             {% endfor %}
-            <input type="submit" value="Pokaż statystyki" class="weapon-choose-btn">
+            <input type="submit" value="Pokaż statystyki" class="weapon-choose-btn add-stat-button">
         </form>
     </div>
 {% endblock %}
