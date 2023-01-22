@@ -1,5 +1,5 @@
 class OneHand:
-    def __init__(self, damage1=2, damage2=3, attack_speed=2, critical_attack=0.2, dodge=0, block=0.4):
+    def __init__(self, damage1=2, damage2=3, attack_speed=2, critical_attack=0.6, dodge=0, block=1.2):
         self.strength = 10
         self.dexterity = 15
         self.charisma = 20
@@ -15,7 +15,7 @@ class OneHand:
 
 
 class TwoHand:
-    def __init__(self, damage1=2, damage2=3, attack_speed=2, critical_attack=0.2, dodge=0, block=0):
+    def __init__(self, damage1=2, damage2=3, attack_speed=2, critical_attack=0.6, dodge=0, block=0):
         self.strength = 20
         self.dexterity = 10
         self.charisma = 15
@@ -31,7 +31,7 @@ class TwoHand:
 
 
 class Daggers:
-    def __init__(self, damage1=2, damage2=3, attack_speed=2, critical_attack=0.2, dodge=0.2, block=0):
+    def __init__(self, damage1=2, damage2=3, attack_speed=2, critical_attack=0.6, dodge=0.6, block=0):
         self.strength = 10
         self.dexterity = 20
         self.charisma = 15

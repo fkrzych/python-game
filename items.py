@@ -6,12 +6,12 @@ class Backpack:
 
 class Potion1:
     def __init__(self):
-        self.value = 20
+        self.value = 200
 
 class Potion2:
     def __init__(self):
-        self.value = 40
+        self.value = 400
 
 class Potion3:
     def __init__(self):
-        self.value = 60
+        self.value = 600

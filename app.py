@@ -3,15 +3,18 @@ from flask import render_template
 from flask import request
 from characters import OneHand, TwoHand, Daggers
 from items import Potion1, Potion2, Potion3, Backpack
-from actions import use_potion, calculate_attack, calculate_block, regenerate_energy, enemy_attacks, calculate_strong_attack
-from enemies import Enemy1
+from actions import use_potion, calculate_attack, calculate_block, regenerate_energy, enemy_attacks, calculate_strong_attack, calculate_loot
+from enemies import Rabbit, Boar, Deer, Troll, Goblin, Orc, Dragon
 
 app = Flask(__name__)
 
 
 class Game:
     def __init__(self):
-        pass
+        self.line1_done = False
+        self.line2_done = False
+        self.line3_done = False
+        self.line4_done = False
 
 
 class Player:
@@ -49,6 +52,33 @@ def start_game():
 
 @app.route('/choose_class', methods=['GET', 'POST'])
 def choose_class():
+    global game
+    game = Game()
+
+    global battle
+    battle = Battle()
+
+    global rabbit
+    rabbit = Rabbit()
+
+    global boar
+    boar = Boar()
+
+    global deer
+    deer = Deer()
+
+    global troll
+    troll = Troll()
+
+    global goblin
+    goblin = Goblin()
+
+    global orc
+    orc = Orc()
+
+    global dragon
+    dragon = Dragon()
+
     global player
     player = Player()
     player.backpack = Backpack()
@@ -110,7 +140,7 @@ def add_stats():
             dexterity = 1
             player.dexterity += dexterity
             if player.character_class != 'Broń dwuręczna' and player.character_class != 'Broń jednoręczna i tarcza':
-                player.dodge += dexterity/1000
+                player.dodge += dexterity/250
             player.attack_speed += 0.2
             player.attack_speed = round(player.attack_speed, 2)
             player.start_points -= 1
@@ -118,7 +148,7 @@ def add_stats():
             dexterity = 3
             player.dexterity += dexterity
             if player.character_class != 'Broń dwuręczna' and player.character_class != 'Broń jednoręczna i tarcza':
-                player.dodge += dexterity/1000
+                player.dodge += dexterity/250
             player.attack_speed += 0.2 * 3
             player.attack_speed = round(player.attack_speed, 2)
             player.start_points -= 3
@@ -126,15 +156,15 @@ def add_stats():
             charisma = 1
             player.charisma += charisma
             if player.character_class != 'Broń dwuręczna' and player.character_class != 'Sztylety':
-                player.block += charisma/1000
-            player.critical_attack += charisma/1000
+                player.block += charisma/250
+            player.critical_attack += charisma/250
             player.start_points -= 1
         elif add_stat == 'charisma3' and player.start_points > 2:
             charisma = 3
             player.charisma += charisma
             if player.character_class != 'Broń dwuręczna' and player.character_class != 'Sztylety':
-                player.block += charisma/1000
-            player.critical_attack += charisma/1000
+                player.block += charisma/250
+            player.critical_attack += charisma/250
             player.start_points -= 3
 
         if sub_stat == 'strength1' and player.start_points < 10 and player.strength > player.start_strength:
@@ -160,12 +190,12 @@ def add_stats():
         elif sub_stat == 'charisma1' and player.start_points < 10 and player.charisma > player.start_charisma:
             charisma = 1
             player.charisma -= charisma
-            player.critical_attack -= charisma/1000
+            player.critical_attack -= charisma/250
             player.start_points += 1
         elif sub_stat == 'charisma3' and player.start_points < 8 and player.charisma > player.start_charisma:
             charisma = 3
             player.charisma -= charisma
-            player.critical_attack -= charisma/1000
+            player.critical_attack -= charisma/250
             player.start_points += 3
 
     stats_names = ['Siła', 'Zręczność', 'Charyzma', 'Obrażenia', 'Szybkość ataku', 'Cios krytyczny', 'Blok', 'Unik']
@@ -175,31 +205,8 @@ def add_stats():
 @app.route('/game', methods=['GET', 'POST'])
 def game():
     global player
+    global game
     potions = [Potion1(), Potion2(), Potion3()]
-
-    global battle
-    battle = Battle()
-
-    global enemy1
-    enemy1 = Enemy1()
-
-    global enemy2
-    enemy2 = Enemy1()
-
-    global enemy3
-    enemy3 = Enemy1()
-
-    global enemy4
-    enemy4 = Enemy1()
-
-    global enemy5
-    enemy5 = Enemy1()
-
-    global enemy6
-    enemy6 = Enemy1()
-
-    global enemy7
-    enemy7 = Enemy1()
 
     if request.method == 'POST':
         if request.form.get('potion') == 'potion1':
@@ -218,22 +225,79 @@ def game():
                 use_potion(player, potion)
                 player.backpack.potion3 -= 1
 
-    enemies = ['enemy1', 'enemy2', 'enemy3', 'enemy4', 'enemy5', 'enemy6', 'enemy7']
+    enemies = ['rabbit', 'boar', 'deer', 'troll', 'goblin', 'orc', 'dragon']
     stats_names = ['Siła', 'Zręczność', 'Charyzma', 'Obrażenia', 'Szybkość ataku', 'Cios krytyczny', 'Blok', 'Unik']
     return render_template('game.htm', player=player, backpack=player.backpack, potions=potions, stats_names=stats_names, enemies=enemies)
 
 
 @app.route('/game/battle', methods=['GET', 'POST'])
 def battle():
+    global game
     global player
     global battle
     potions = [Potion1(), Potion2(), Potion3()]
 
+    global enemy1
+
+    if game.line4_done:
+        game.line1_done = False
+        game.line2_done = False
+        game.line3_done = False
+        game.line4_done = False
+
+    if request.method == 'POST':
+        if request.form.get('enemy') == 'rabbit':
+            enemy1 = rabbit
+        elif request.form.get('enemy') == 'boar':
+            if game.line1_done == True:
+                enemy1 = boar
+            else:
+                return render_template('cannot_fight.htm')
+        elif request.form.get('enemy') == 'deer':
+            if game.line1_done == True:
+                enemy1 = deer
+            else:
+                return render_template('cannot_fight.htm')
+        elif request.form.get('enemy') == 'troll':
+            if game.line2_done == True:
+                enemy1 = troll
+            else:
+                return render_template('cannot_fight.htm')
+        elif request.form.get('enemy') == 'goblin':
+            if game.line2_done == True:
+                enemy1 = goblin
+            else:
+                return render_template('cannot_fight.htm')
+        elif request.form.get('enemy') == 'orc':
+            if game.line2_done == True:
+                enemy1 = orc
+            else:
+                return render_template('cannot_fight.htm')
+        elif request.form.get('enemy') == 'dragon':
+            if game.line3_done == True:
+                enemy1 = dragon
+            else:
+                return render_template('cannot_fight.htm')
+
     if player.health <= 0:
         return render_template('exit_battle_dead.htm')
     if enemy1.health <= 0:
+        if enemy1.line == 1:
+            game.line1_done = True
+        elif enemy1.line == 2:
+            game.line2_done = True
+        elif enemy1.line == 3:
+            game.line3_done = True
+        elif enemy1.line == 4:
+            game.line4_done = True
+
+        enemy1.strengthen()
+        enemy1.health = enemy1.max_health
+        enemy1.energy = enemy1.max_energy
+        calculate_loot(player, enemy1)
         player.energy = player.max_energy
-        return render_template('exit_battle_win.htm')
+        battle.turn = 0
+        return render_template('exit_battle_win.htm', enemy1=enemy1)
 
     action = ''
     attack = 0
@@ -266,8 +330,7 @@ def battle():
                     attack_taken)
 
                 battle.turn += 1
-            elif action == 'attack' and player.energy <= 0:
-                return 'Nie masz siły zaatakować!'
+
             if action == 'rest':
 
                 if player.energy < 100:
@@ -277,7 +340,7 @@ def battle():
 
                 battle.turn += 1
 
-    return render_template('battle.htm', backpack=player.backpack, enemy1=enemy1, player=player, battle=battle, potions=potions, attack=attack, action=action, is_critical=is_critical, attack_taken=attack_taken, is_critical_taken=is_critical_taken, is_attack_taken_blocked=is_attack_taken_blocked, is_attack_taken_dodged=is_attack_taken_dodged, enemy_rests=enemy_rests)
+    return render_template('battle.htm', backpack=player.backpack, enemy1=enemy1, player=player, battle=battle, potions=potions, attack=attack, action=action, is_critical=is_critical, attack_taken=attack_taken, is_critical_taken=is_critical_taken, is_attack_taken_blocked=is_attack_taken_blocked, is_attack_taken_dodged=is_attack_taken_dodged, enemy_rests=enemy_rests, enemy_name=enemy1.enemy_name)
 
 
 if __name__ == '__main__':

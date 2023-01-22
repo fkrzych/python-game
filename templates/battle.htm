@@ -2,7 +2,7 @@
 
 {% block body %}
     <div class="container">
-        <div class="name-bar">PRZECIWINIK: {{ enemy1.health }} <img src="{{ url_for('static', filename="img/heart3.png") }}" width="32" height="32">{{ enemy1.energy }} <img src="{{ url_for('static', filename="img/energy.png") }}" width="32" height="32"></div>
+        <div class="name-bar">{{ enemy_name }}: {{ enemy1.health|int }} <img src="{{ url_for('static', filename="img/heart3.png") }}" width="32" height="32">{{ enemy1.energy }} <img src="{{ url_for('static', filename="img/energy.png") }}" width="32" height="32"></div>
         <div class="name-bar">{{ player.name }}: {{ player.health }} <img src="{{ url_for('static', filename="img/heart3.png") }}" width="32" height="32">{{ player.energy }} <img src="{{ url_for('static', filename="img/energy.png") }}" width="32" height="32"></div>
     </div>
     {% if battle.turn > 0 %}
@@ -119,7 +119,7 @@
         </form>
         {% else %}
             <div class="container-center margin-top-2rem">
-                <form method="post" >
+                <form method="post">
                     <input type="submit" value="Koniec walki" class="add-stat-button">
                 </form>
             </div>

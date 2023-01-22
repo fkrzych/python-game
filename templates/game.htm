@@ -28,6 +28,9 @@
             </div>
             {% endif %}
         </div>
+            <form action="/add_stats" method="post">
+                <input type="submit" value="Rozdaj statystki" class="add-stat-button">
+            </form>
         <div class="name-container">
             <div class="name-bar">{{ player.name }}</div>
             <div class="name-bar"><img src="{{ url_for('static', filename='img/'+ player.character_class + ".png") }}" width="64" height="64"></div>
@@ -37,12 +40,11 @@
 
             <div>
             <div>Plecak</div>
-
                 <div class="backpack-element">
                     <div>{{ backpack.potion1 }}</div>
                     <form method="post" >
                         <input type="hidden" id="potion" name="potion" value="potion1">
-                        <input type="submit" value="+{{ potions[0].value }} HP">
+                        <input type="submit" value="+{{ potions[0].value }} HP" class="add-stat-button">
                     </form>
                 </div>
 
@@ -50,7 +52,7 @@
                     <div>{{ backpack.potion2 }}</div>
                     <form method="post" >
                         <input type="hidden" id="potion" name="potion" value="potion2">
-                        <input type="submit" value="+{{ potions[1].value }} HP">
+                        <input type="submit" value="+{{ potions[1].value }} HP" class="add-stat-button">
                     </form>
                 </div>
 
@@ -58,7 +60,7 @@
                     <div>{{ backpack.potion3 }}</div>
                     <form method="post" >
                         <input type="hidden" id="potion" name="potion" value="potion3">
-                        <input type="submit" value="+{{ potions[2].value }} HP">
+                        <input type="submit" value="+{{ potions[2].value }} HP" class="add-stat-button">
                     </form>
                 </div>
             </div>
@@ -71,19 +73,40 @@
     <div class="main-container">
         <div class="enemy-tree">
             <div class="enemy-row">
-                <a href="/game/battle">{{ enemies[6] }}</a>
+               <form method="post" action="/game/battle">
+                    <input type="hidden" id="enemy" name="enemy" value="{{ enemies[6] }}">
+                    <input type="submit" value="Smok" class="add-stat-button">
+                </form>
             </div>
             <div class="enemy-row">
-                <a href="/game/battle">{{ enemies[3] }}</a>
-                <a href="/game/battle">{{ enemies[4] }}</a>
-                <a href="/game/battle">{{ enemies[5] }}</a>
+                <form method="post" action="/game/battle">
+                    <input type="hidden" id="enemy" name="enemy" value="{{ enemies[3] }}">
+                    <input type="submit" value="Troll" class="add-stat-button">
+                </form>
+                 <form method="post" action="/game/battle">
+                    <input type="hidden" id="enemy" name="enemy" value="{{ enemies[4] }}">
+                    <input type="submit" value="Goblin" class="add-stat-button">
+                </form>
+                 <form method="post" action="/game/battle">
+                    <input type="hidden" id="enemy" name="enemy" value="{{ enemies[5] }}">
+                    <input type="submit" value="Ork" class="add-stat-button">
+                </form>
             </div>
             <div class="enemy-row">
-                <a href="/game/battle">{{ enemies[1] }}</a>
-                <a href="/game/battle">{{ enemies[2] }}</a>
+                <form method="post" action="/game/battle">
+                    <input type="hidden" id="enemy" name="enemy" value="{{ enemies[1] }}">
+                    <input type="submit" value="Dzik" class="add-stat-button">
+                </form>
+                <form method="post" action="/game/battle">
+                    <input type="hidden" id="enemy" name="enemy" value="{{ enemies[2] }}">
+                    <input type="submit" value="Jeleń" class="add-stat-button">
+                </form>
             </div>
             <div class="enemy-row">
-                <a href="/game/battle">{{ enemies[0] }}</a>
+                <form method="post" action="/game/battle">
+                    <input type="hidden" id="enemy" name="enemy" value="{{ enemies[0] }}">
+                    <input type="submit" value="Królik" class="add-stat-button">
+                </form>
             </div>
         </div>
     </div>

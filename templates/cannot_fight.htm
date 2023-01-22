@@ -1,11 +1,7 @@
 {% extends 'base.htm' %}
 
 {% block body %}
-    <p>Wygrałeś</p>
-    {% if enemy1.enemy_name == 'Smok' %}
-        <p>Udało ci się pokonać smoka! W nagrodę otrzymujesz 10 punktów statysyk!</p>
-        <p>Spróbuj dotrzeć do niego ponownie!</p>
-    {% endif %}
+    <p>Nie możesz zaatakować tego przeciwnika! Pokonaj najpierw dowolnego przeciwnika z poprzedniego poziomu</p>
     <div class="container-center margin-top-2rem">
         <form method="post" action="/game">
                 <input type="submit" value="Wróć do gry" class="add-stat-button">
