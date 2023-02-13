@@ -82,6 +82,20 @@ p {
     justify-content: center;
 }
 
+.container-left {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.container-right {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
 /* GAME */
 
 .backpack-element {
@@ -140,11 +154,20 @@ p {
     background-color: #786143;
 }
 
+/* PVP */
+.battles-list {
+    text-decoration: none;
+    list-style: none;
+}
 
 /* REUSABLE */
 
 .margin-top-2rem {
     margin-top: 2rem;
+}
+
+.margin-top-12rem {
+    margin-top: 12rem;
 }
 
 .margin-top-1rem {
@@ -157,6 +180,10 @@ p {
 
 .font-size-2rem {
     font-size: 2rem;
+}
+
+.gap-2-rem {
+    gap: 2rem;
 }
 
 .box-shadow-color {

@@ -5,8 +5,8 @@
         <div class="name-bar">{{ enemy_name }}: {{ enemy1.health|int }} <img src="{{ url_for('static', filename="img/heart3.png") }}" width="32" height="32">{{ enemy1.energy }} <img src="{{ url_for('static', filename="img/energy.png") }}" width="32" height="32"></div>
         <div class="name-bar">{{ player.name }}: {{ player.health }} <img src="{{ url_for('static', filename="img/heart3.png") }}" width="32" height="32">{{ player.energy }} <img src="{{ url_for('static', filename="img/energy.png") }}" width="32" height="32"></div>
     </div>
-    {% if battle.turn > 0 %}
-        <p>Tura {{ battle.turn }}</p>
+    {% if game.turn > 0 %}
+        <p>Tura {{ game.turn }}</p>
         {% if action != 'rest' and is_critical_taken and is_critical and is_attack_taken_blocked %}
             <p>CIOS KRYTYCZNY {{ attack }} obrażeń</p>
             {% if enemy_rests %}

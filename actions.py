@@ -65,7 +65,7 @@ def enemy_attacks(enemy, player, is_critical_taken, is_attack_taken_blocked, is_
     return attack_taken, is_critical_taken, is_attack_taken_blocked, is_attack_taken_dodged, enemy_rests
 
 
-def calculate_loot(player, enemy):
+def calculate_loot(player, backpack, enemy):
     loot_chance = random.random()
 
     if enemy.line == 4:
@@ -73,8 +73,8 @@ def calculate_loot(player, enemy):
 
     if loot_chance < 0.34:
         if enemy.line == 1:
-            player.backpack.potion1 += 1
+            backpack.potion1 += 1
         elif enemy.line == 2:
-            player.backpack.potion2 += 1
+            backpack.potion2 += 1
         elif enemy.line == 3:
-            player.backpack.potion3 += 1
+            backpack.potion3 += 1

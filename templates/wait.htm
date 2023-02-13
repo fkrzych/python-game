@@ -1,0 +1,17 @@
+{% extends 'base.htm' %}
+
+{% block body %}
+<p>Oczekiwanie na przeciwnika...</p>
+
+{% if game.start %}
+    <div class="container-center margin-top-2rem">
+        <a href="/game/pvp" class="add-stat-button">Rozpocznij walkę</a>
+    </div>
+{% endif %}
+
+<script>
+    setTimeout(function(){
+        window.location.reload(1);
+    }, 3000);
+</script>
+{% endblock %}

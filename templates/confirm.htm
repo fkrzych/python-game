@@ -1,0 +1,7 @@
+{% extends 'base.htm' %}
+{% block body %}
+<form method="post" action="/game/pvp/battle">
+        <input type="hidden" id="player_name" name="player_name" value="{{ pvp_battle }}">
+        <input type="submit" value="Potwierdź" class="add-stat-button">
+    </form>
+{% endblock %}

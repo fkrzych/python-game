@@ -1,0 +1,32 @@
+{% extends 'base.htm' %}
+
+{% block body %}
+    <div class="margin-top-2rem">
+        <h1>Wybór broni</h1>
+    </div>
+    <div class="main-container box-shadow-color margin-2rem padding-top-3rem">
+    <p>{{ hotseat.player1.name }}</p>
+        <form method="post" action="/stats_hotseat" class="weapons-container">
+
+            {% for class in classes %}
+                <div class="weapon-field">
+                        <img src="{{ url_for('static', filename='img/'+ class + ".png") }}" width="64" height="64">
+                        <label for="{{ class }}">{{ class }}</label>
+                        <input type="radio" name="character_class1" id="{{ class }}" value="{{ class }}" class="margin-top-1rem">
+                </div>
+            {% endfor %}
+
+
+        {% for class in classes %}
+                <div class="weapon-field">
+                        <img src="{{ url_for('static', filename='img/'+ class + ".png") }}" width="64" height="64">
+                        <label for="{{ class }}">{{ class }}</label>
+                        <input type="radio" name="character_class2" id="{{ class }}" value="{{ class }}" class="margin-top-1rem">
+                </div>
+            {% endfor %}
+
+            <input type="submit" value="Pokaż statystyki" class="weapon-choose-btn add-stat-button">
+        </form>
+    <p class="margin-top-12rem">{{ hotseat.player2.name }}</p>
+    </div>
+{% endblock %}

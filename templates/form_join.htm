@@ -1,0 +1,12 @@
+{% extends 'base.htm' %}
+
+{% block body %}
+    <div class="container-center margin-top-2rem">
+        <form method="post">
+            <input type="hidden" name="room" value="{{ room }}">
+            <input type="hidden" name="player2" value="{{ player2 }}">
+
+            <input type="submit" value="WALCZ" class="add-stat-button">
+        </form>
+    </div>
+{% endblock %}

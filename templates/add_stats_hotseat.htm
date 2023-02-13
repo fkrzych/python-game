@@ -1,0 +1,199 @@
+{% extends 'base.htm' %}
+
+{% block body %}
+    <p>{{ hotseat.player1.name }}</p>
+    <p>{{ hotseat.player1.character_class }}</p>
+    <p>Pozostałe punkty do rozdania: {{ hotseat.player1.start_points }}</p>
+    <div class="container-center margin-top-2rem">
+        <div class="stats-container stats-container-column">
+            <div class="stats-column">
+                <div>Statystyki postaci</div>
+                <div class="add-stat-container">
+                    <div>{{ stats_names[0] }} {{ hotseat.player1.strength }} </div>
+                    <div class="add-stat-container">
+                        <form method="post" >
+                                <input type="hidden" id="add_stat" name="add_stat1" value="strength1">
+                                <input type="submit" value="+1" class="add-stat-button">
+                        </form>
+                        <form method="post" >
+                                <input type="hidden" id="add_stat" name="add_stat1" value="strength3">
+                                <input type="submit" value="+3" class="add-stat-button">
+                        </form>
+                        <form method="post" >
+                                <input type="hidden" id="sub_stat" name="sub_stat1" value="strength1">
+                                <input type="submit" value="-1" class="add-stat-button">
+                        </form>
+                        <form method="post" >
+                                <input type="hidden" id="sub_stat" name="sub_stat1" value="strength3">
+                                <input type="submit" value="-3" class="add-stat-button">
+                        </form>
+                    </div>
+                </div>
+                <div class="add-stat-container">
+                    <div>{{ stats_names[1] }} {{ hotseat.player1.dexterity }}</div>
+                    <div class="add-stat-container">
+                        <form method="post" >
+                                <input type="hidden" id="add_stat" name="add_stat1" value="dexterity1">
+                                <input type="submit" value="+1" class="add-stat-button">
+                        </form>
+                        <form method="post" >
+                                <input type="hidden" id="add_stat" name="add_stat1" value="dexterity3">
+                                <input type="submit" value="+3" class="add-stat-button">
+                        </form>
+                        <form method="post" >
+                                <input type="hidden" id="sub_stat" name="sub_stat1" value="dexterity1">
+                                <input type="submit" value="-1" class="add-stat-button">
+                        </form>
+                        <form method="post" >
+                                <input type="hidden" id="sub_stat" name="sub_stat1" value="dexterity3">
+                                <input type="submit" value="-3" class="add-stat-button">
+                        </form>
+                    </div>
+                </div>
+                <div class="add-stat-container add-stat-container-gap">
+                <div>{{ stats_names[2] }} {{ hotseat.player1.charisma }}</div>
+                    <div class="add-stat-container">
+                        <form method="post" >
+                                <input type="hidden" id="add_stat" name="add_stat1" value="charisma1">
+                                <input type="submit" value="+1" class="add-stat-button">
+                        </form>
+                        <form method="post" >
+                                <input type="hidden" id="add_stat" name="add_stat1" value="charisma3">
+                                <input type="submit" value="+3" class="add-stat-button">
+                        </form>
+                        <form method="post" >
+                                <input type="hidden" id="sub_stat" name="sub_stat1" value="charisma1">
+                                <input type="submit" value="-1" class="add-stat-button">
+                        </form>
+                        <form method="post" >
+                                <input type="hidden" id="sub_stat" name="sub_stat1" value="charisma3">
+                                <input type="submit" value="-3" class="add-stat-button">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="stats-column">
+                <div>Atak</div>
+                <div class="font-size-2rem">
+                    <div>{{ stats_names[3] }} {{ hotseat.player1.damage1 }}-{{ hotseat.player1.damage2 }}</div>
+                    <div>{{ stats_names[4] }} {{ hotseat.player1.attack_speed }}</div>
+                    <div>{{ stats_names[5] }} {{ (hotseat.player1.critical_attack * 100)|round(2) }}%</div>
+                </div>
+            </div>
+            {% if hotseat.player1.character_class != 'Broń dwuręczna' %}
+            <div class="stats-column">
+                <div>Obrona</div>
+                <div class="font-size-2rem">
+                    {% if hotseat.player1.character_class == 'Broń jednoręczna i tarcza' %}
+                        <div>{{ stats_names[6] }} {{ (hotseat.player1.block * 100)|round(2) }}%</div>
+                    {% endif %}
+                    {% if hotseat.player1.character_class == 'Sztylety' %}
+                        <div>{{ stats_names[7] }} {{ (hotseat.player1.dodge * 100)|round(2) }}%</div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <p>{{ hotseat.player2.name }}</p>
+    <p>{{ hotseat.player2.character_class }}</p>
+    <p>Pozostałe punkty do rozdania: {{ hotseat.player2.start_points }}</p>
+    <div class="container-center margin-top-2rem">
+        <div class="stats-container stats-container-column">
+            <div class="stats-column">
+                <div>Statystyki postaci</div>
+                <div class="add-stat-container">
+                    <div>{{ stats_names[0] }} {{ hotseat.player2.strength }} </div>
+                    <div class="add-stat-container">
+                        <form method="post" >
+                                <input type="hidden" id="add_stat" name="add_stat2" value="strength1">
+                                <input type="submit" value="+1" class="add-stat-button">
+                        </form>
+                        <form method="post" >
+                                <input type="hidden" id="add_stat" name="add_stat2" value="strength3">
+                                <input type="submit" value="+3" class="add-stat-button">
+                        </form>
+                        <form method="post" >
+                                <input type="hidden" id="sub_stat" name="sub_stat2" value="strength1">
+                                <input type="submit" value="-1" class="add-stat-button">
+                        </form>
+                        <form method="post" >
+                                <input type="hidden" id="sub_stat" name="sub_stat2" value="strength3">
+                                <input type="submit" value="-3" class="add-stat-button">
+                        </form>
+                    </div>
+                </div>
+                <div class="add-stat-container">
+                    <div>{{ stats_names[1] }} {{ hotseat.player2.dexterity }}</div>
+                    <div class="add-stat-container">
+                        <form method="post" >
+                                <input type="hidden" id="add_stat" name="add_stat2" value="dexterity1">
+                                <input type="submit" value="+1" class="add-stat-button">
+                        </form>
+                        <form method="post" >
+                                <input type="hidden" id="add_stat" name="add_stat2" value="dexterity3">
+                                <input type="submit" value="+3" class="add-stat-button">
+                        </form>
+                        <form method="post" >
+                                <input type="hidden" id="sub_stat" name="sub_stat2" value="dexterity1">
+                                <input type="submit" value="-1" class="add-stat-button">
+                        </form>
+                        <form method="post" >
+                                <input type="hidden" id="sub_stat" name="sub_stat2" value="dexterity3">
+                                <input type="submit" value="-3" class="add-stat-button">
+                        </form>
+                    </div>
+                </div>
+                <div class="add-stat-container add-stat-container-gap">
+                <div>{{ stats_names[2] }} {{ hotseat.player2.charisma }}</div>
+                    <div class="add-stat-container">
+                        <form method="post" >
+                                <input type="hidden" id="add_stat" name="add_stat2" value="charisma1">
+                                <input type="submit" value="+1" class="add-stat-button">
+                        </form>
+                        <form method="post" >
+                                <input type="hidden" id="add_stat" name="add_stat2" value="charisma3">
+                                <input type="submit" value="+3" class="add-stat-button">
+                        </form>
+                        <form method="post" >
+                                <input type="hidden" id="sub_stat" name="sub_stat2" value="charisma1">
+                                <input type="submit" value="-1" class="add-stat-button">
+                        </form>
+                        <form method="post" >
+                                <input type="hidden" id="sub_stat" name="sub_stat2" value="charisma3">
+                                <input type="submit" value="-3" class="add-stat-button">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="stats-column">
+                <div>Atak</div>
+                <div class="font-size-2rem">
+                    <div>{{ stats_names[3] }} {{ hotseat.player2.damage1 }}-{{ hotseat.player2.damage2 }}</div>
+                    <div>{{ stats_names[4] }} {{ hotseat.player2.attack_speed }}</div>
+                    <div>{{ stats_names[5] }} {{ (hotseat.player2.critical_attack * 100)|round(2) }}%</div>
+                </div>
+            </div>
+            {% if hotseat.player2.character_class != 'Broń dwuręczna' %}
+            <div class="stats-column">
+                <div>Obrona</div>
+                <div class="font-size-2rem">
+                    {% if hotseat.player2.character_class == 'Broń jednoręczna i tarcza' %}
+                        <div>{{ stats_names[6] }} {{ (hotseat.player2.block * 100)|round(2) }}%</div>
+                    {% endif %}
+                    {% if hotseat.player2.character_class == 'Sztylety' %}
+                        <div>{{ stats_names[7] }} {{ (hotseat.player2.dodge * 100)|round(2) }}%</div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="container-center margin-top-2rem">
+        <form action="/hotseat_battle" method="post">
+            <input type="submit" value="Zatwierdź" class="add-stat-button">
+        </form>
+    </div>
+{% endblock %}

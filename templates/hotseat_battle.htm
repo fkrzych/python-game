@@ -1,0 +1,64 @@
+{% extends 'base.htm' %}
+{% block body %}
+    <div class="container">
+        <div class="name-bar">{{ hotseat.player2.name }}: {{ hotseat.player2.health }} <img src="{{ url_for('static', filename="img/heart3.png") }}" width="32" height="32">{{ hotseat.player2.energy }}<img src="{{ url_for('static', filename="img/energy.png") }}" width="32" height="32"></div>
+        <div class="name-bar">{{ hotseat.player1.name }}: {{ hotseat.player1.health }} <img src="{{ url_for('static', filename="img/heart3.png") }}" width="32" height="32">{{ hotseat.player1.energy }}<img src="{{ url_for('static', filename="img/energy.png") }}" width="32" height="32"></div>
+    </div>
+    {% if hotseat.turn >= 0 %}
+        <p>Tura {{ (hotseat.turn|int) + 1 }}</p>
+    {% endif %}
+
+    {% if hotseat.whose_turn%2 == 0%}
+        {% if hotseat.player1.health > 0 and hotseat.player2.health > 0 %}
+            <div class="container-right margin-top-2rem">
+            <form method="post" action="/hotseat_battle">
+                <input type="hidden" id="action" name="action" value="attack">
+                <input type="submit" value="Atak -10ENG" class="add-stat-button">
+            </form>
+
+            <form method="post" >
+                <input type="hidden" id="action" name="action" value="strong_attack">
+                <input type="submit" value="Silny atak -20ENG" class="add-stat-button">
+            </form>
+
+            <form method="post" >
+                <input type="hidden" id="action" name="action" value="rest">
+                <input type="submit" value="Odpoczynek +20ENG" class="add-stat-button">
+            </form>
+            {% else %}
+                <div class="container-center margin-top-2rem">
+                    <form method="get" action="/start_hotseat">
+                        <input type="submit" value="Koniec walki" class="add-stat-button">
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+
+    {% if hotseat.whose_turn%2 == 1%}
+        {% if hotseat.player1.health > 0 and hotseat.player2.health > 0 %}
+            <div class="container-left margin-top-1rem">
+            <form method="post" action="/hotseat_battle">
+                <input type="hidden" id="action" name="action" value="attack">
+                <input type="submit" value="Atak -10ENG" class="add-stat-button">
+            </form>
+
+            <form method="post" >
+                <input type="hidden" id="action" name="action" value="strong_attack">
+                <input type="submit" value="Silny atak -20ENG" class="add-stat-button">
+            </form>
+
+            <form method="post" >
+                <input type="hidden" id="action" name="action" value="rest">
+                <input type="submit" value="Odpoczynek +20ENG" class="add-stat-button">
+            </form>
+            {% else %}
+                <div class="container-center margin-top-2rem">
+                    <form method="get" action="/start_hotseat">
+                        <input type="submit" value="Koniec walki" class="add-stat-button">
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}

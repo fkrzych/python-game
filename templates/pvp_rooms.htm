@@ -1,0 +1,15 @@
+{% extends 'base.htm' %}
+
+{% block body %}
+    <p>PVP</p>
+    <div class="container-center margin-top-2rem">
+        Dostępni przeciwnicy:
+    </div>
+    <div class="container-center margin-top-2rem">
+        <ul class="battles-list">
+        {%  for pvp_battle in pvp_battles %}
+            <li class="margin-top-2rem"><a href="{{ url_for('form_join', room=pvp_battle) }}" class="add-stat-button">{{ pvp_battles[pvp_battle].players[0].name }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

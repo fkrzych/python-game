@@ -1,0 +1,20 @@
+{% extends 'base.htm' %}
+
+{% block body %}
+    <div class="box-shadow-color margin-2rem">
+    <h1>Rozpocznij grę!</h1>
+        <div class="container-center margin-top-1rem">
+            <form method="post" action="/choose_class_hotseat">
+                <label for="character_name">Nazwa gracza1:</label>
+                <input type="text" id="character_name1" name="character_name1">
+                <label for="character_name">Nazwa gracza2:</label>
+                <input type="text" id="character_name2" name="character_name2">
+                <input type="submit" value="Zatwierdź" class="add-stat-button">
+            </form>
+        </div>
+    </div>
+
+    <div class="container-center margin-top-2rem">
+        <a class="add-stat-button" href="/">Strona główna</a>
+    </div>
+{% endblock %}
